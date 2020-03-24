@@ -11,6 +11,8 @@ AM_INIT_AUTOMAKE([
 AM_SILENT_RULES([yes])
 
 AC_PROG_CC
+AC_PROG_CC_C99
+AC_PROG_CC_STDC
 
 LT_INIT([shared disable-static])
 
