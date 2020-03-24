@@ -13,11 +13,10 @@ lib_LTLIBRARIES = libmap.la
 libmap_la_SOURCES = \
 					map.c
 
+check_LDADD = $(lib_LTLIBRARIES)
 check_PROGRAMS = \
 				 tests/simple
 
-TESTS = $(check_PROGRAMS)
-check_LDADD = $(lib_LTLIBRARIES)
-
 tests_simple_LDADD = $(check_LDADD)
 
+TESTS = $(check_PROGRAMS)
