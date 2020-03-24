@@ -1,9 +1,7 @@
-AM_CPPFLAGS = -D_GNU_SOURCE
-
 AM_CFLAGS = -Wall      \
 			-Wextra    \
 			-Werror    \
-			-std=gnu99 \
+			-std=c99   \
 			-pedantic  \
 			-fPIC      \
 			-fvisibility=hidden
@@ -15,8 +13,12 @@ libmap_la_SOURCES = \
 
 check_LDADD = $(lib_LTLIBRARIES)
 check_PROGRAMS = \
-				 tests/simple
+				 tests/template    \
+				 tests/init_normal \
+				 tests/init_null
 
-tests_simple_LDADD = $(check_LDADD)
+tests_template_LDADD = $(check_LDADD)
+tests_init_null_LDADD = $(check_LDADD)
+tests_init_normal_LDADD = $(check_LDADD)
 
 TESTS = $(check_PROGRAMS)
