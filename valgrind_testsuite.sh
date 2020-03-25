@@ -6,7 +6,7 @@ normal='\033[0m'
 
 ret_value=0
 
-make_files="Makefile map/Makefile vector/Makefile"
+make_files='Makefile map/Makefile vector/Makefile'
 libs='libmap.so libvector.so'
 
 srcdir="$(dirname $0)"
@@ -28,10 +28,12 @@ for make_input in $make_files
 do
     if ! [ -f $make_input ]
     then
-        ./autogen && ./configure
+        ./autogen.sh && ./configure
         break
     fi
 done
+
+make
 
 cd "$tmpdir"
 
