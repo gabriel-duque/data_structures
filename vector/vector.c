@@ -1,6 +1,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "vector.h"
 
@@ -46,6 +47,9 @@ __attribute__((visibility("default")))
 struct vector *vector_new(size_t capacity)
 {
     struct vector *vector;
+
+    if (!capacity)
+        capacity = 1;
 
     if ((vector = xmalloc(sizeof(struct vector))) == NULL)
         return NULL;
@@ -95,11 +99,8 @@ bool vector_push_front(struct vector *vector, void *value)
         if (!vector_resize_up(vector))
             return false;
 
-    for (size_t i = vector->size - 1; i; --i)
-        vector->data[i] = vector->data[i - 1];
-
+    memmove(vector->data + 1, vector->data, vector->size++ * sizeof(void*));
     vector->data[0] = value;
-    vector->size++;
 
     return true;
 }
@@ -114,8 +115,7 @@ void *vector_pop_front(struct vector *vector)
 
     value = vector->data[0];
 
-    for (size_t i = 0; i < vector->size - 1; ++i)
-        vector->data[i] = vector->data[i + 1];
+    memmove(vector->data, vector->data + 1, --vector->size * sizeof(void*));
 
     return value;
 }
@@ -128,8 +128,8 @@ struct vector *vector_clone(struct vector *vector)
     if ((clone = vector_new(vector->capacity)) == NULL)
         return NULL;
 
-    for (size_t i = 0; i < vector->capacity; ++i)
-        clone->data[i] = vector->data[i];
+    clone->size = vector->size;
+    memcpy(clone->data, vector->data, clone->size * sizeof(void*));
 
     return clone;
 }
