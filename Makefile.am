@@ -1,1 +1,1 @@
-SUBDIRS = map
+SUBDIRS = map vector

@@ -20,6 +20,7 @@ LT_INIT([shared disable-static])
 AC_CONFIG_FILES([
         Makefile
         map/Makefile
+        vector/Makefile
 ])
 
 AC_OUTPUT
