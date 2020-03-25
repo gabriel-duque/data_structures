@@ -6,6 +6,8 @@ AM_CFLAGS = -Wall      \
 			-fPIC      \
 			-fvisibility=hidden
 
+include_HEADERS = \
+					map.h
 
 lib_LTLIBRARIES = libmap.la
 libmap_la_SOURCES = \
