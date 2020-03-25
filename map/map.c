@@ -68,37 +68,43 @@ static inline void pair_destroy(struct pair *pair, void (*destructor) (void*))
 }
 
 /* Actually add a new element to our map */
-static inline int _map_add(struct map *map, uint32_t hkey,
-                           char *key, void *value,
-                           void (*destructor) (void*))
+static int _map_add(struct map *map, uint32_t hkey,
+                    char *key, void *value,
+                    void (*destructor) (void*))
 {
+    struct pair *prev;
     struct pair *pair;
 
     pair = map->tab[hkey % map->capacity];
 
     if (pair == NULL) {
-        map->tab[hkey % map->capacity] = pair_init(hkey, key, value);
+        if ((map->tab[hkey % map->capacity] = pair_init(hkey, key, value))
+                == NULL)
+            return 2;
         map->size++;
         return 1;
     }
 
-    for (; pair->next != NULL; pair = pair->next) {
-        if (pair->hkey == hkey && !strcmp(pair->key, key)) {
+    while (pair != NULL) {
+        prev = pair;
+        pair = pair->next;
+        if (prev->hkey == hkey && !strcmp(prev->key, key)) {
             if (destructor != NULL)
-                destructor(pair->value);
-            pair->value = value;
+                destructor(prev->value);
+            prev->value = value;
             return 0;
         }
     }
 
-    pair->next = pair_init(hkey, key, value);
+    if ((pair->next = pair_init(hkey, key, value)) == NULL)
+        return 2;
     map->size++;
 
     return 1;
 }
 
 /* Resize our map */
-static inline void map_resize_up(struct map *map)
+static void map_resize_up(struct map *map)
 {
     void *ptr;
     struct pair **old_tab;
@@ -108,7 +114,7 @@ static inline void map_resize_up(struct map *map)
     old_tab = map->tab;
 
     /* Just keep the current tab if we can't allocate a bigger one */
-    if ((ptr = xmalloc(map->capacity * sizeof(struct pair))) == NULL)
+    if ((ptr = xmalloc(map->capacity * 2 * sizeof(struct pair))) == NULL)
         return;
 
     map->capacity *= 2;

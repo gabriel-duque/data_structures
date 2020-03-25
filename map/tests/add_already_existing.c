@@ -4,15 +4,16 @@
 
 int main(void)
 {
-    struct map *map;
+    struct map *map = map_init(42);
 
-    if ((map = map_init(42)) == NULL)
+    map_add(map, "toto", "tata", NULL);
+    if (map->size != 1)
         return EXIT_FAILURE;
 
-    if (map->capacity != 42 || map->size)
+    map_add(map, "toto", "titi", NULL);
+    if (map->size != 1)
         return EXIT_FAILURE;
 
     map_destroy(map, NULL);
-
     return EXIT_SUCCESS;
 }
