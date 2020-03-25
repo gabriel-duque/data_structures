@@ -133,6 +133,7 @@ static void map_resize_up(struct map *map)
             free(prev);
         }
     }
+    free(old_tab);
 }
 
 /* Returns a new map */
@@ -237,5 +238,6 @@ void map_destroy(struct map *map, void (*destructor) (void*))
         if (map->tab[i] != NULL)
             pair_destroy(map->tab[i], destructor);
 
+    free(map->tab);
     free(map);
 }
