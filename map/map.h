@@ -26,7 +26,7 @@ struct pair *map_get(struct map *map, char *key);
 
 /* Add a new entry into the map */
 int map_add(struct map *map, char *key,
-            char *value, void (*destructor) (void*));
+            void *value, void (*destructor) (void*));
 
 /* Delete an entry from the map */
 void map_remove(struct map *map, char *key, void (*destructor) (void*));

@@ -96,8 +96,9 @@ static int _map_add(struct map *map, uint32_t hkey,
         }
     }
 
-    if ((pair->next = pair_init(hkey, key, value)) == NULL)
+    if ((prev->next = pair_init(hkey, key, value)) == NULL)
         return 2;
+
     map->size++;
 
     return 1;
@@ -160,7 +161,7 @@ struct map *map_init(size_t capacity)
 /* Add a new entry into the map */
 __attribute__((visibility("default")))
 int map_add(struct map *map, char *key,
-            char *value, void (*destructor) (void*))
+            void *value, void (*destructor) (void*))
 {
     uint32_t hkey;
 
@@ -198,8 +199,10 @@ void map_remove(struct map *map, char *key, void (*destructor) (void*))
             else
                 prev->next = pair->next;
             if (destructor != NULL)
-                destructor(pair->value);
-            free(pair);
+                destructor(prev->value);
+
+            map->size--;
+            free(prev);
 
             return;
         }
@@ -227,6 +230,9 @@ struct pair *map_get(struct map *map, char *key)
 __attribute__((visibility("default")))
 void map_destroy(struct map *map, void (*destructor) (void*))
 {
+    if (map == NULL)
+        return;
+
     for (size_t i = 0; i < map->capacity; ++i)
         if (map->tab[i] != NULL)
             pair_destroy(map->tab[i], destructor);

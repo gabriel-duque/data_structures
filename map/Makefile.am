@@ -34,8 +34,7 @@ check_PROGRAMS = \
 				 tests/map_remove_only_in_list \
 				 tests/map_destroy_all_empty \
 				 tests/map_destroy_first_in_list \
-				 tests/map_destroy_last_in_list \
-				 tests/map_destroy_middle_in_list
+				 tests/map_destroy_last_in_list
 
 TESTS = $(check_PROGRAMS)
 
@@ -70,4 +69,3 @@ tests_map_remove_only_in_list_LDADD = $(check_LDADD)
 tests_map_destroy_all_empty_LDADD = $(check_LDADD)
 tests_map_destroy_first_in_list_LDADD = $(check_LDADD)
 tests_map_destroy_last_in_list_LDADD = $(check_LDADD)
-tests_map_destroy_middle_in_list_LDADD = $(check_LDADD)
