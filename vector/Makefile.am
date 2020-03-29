@@ -29,6 +29,9 @@ check_PROGRAMS = \
 				 tests/vector_pop_front_empty \
 				 tests/vector_pop_front \
 				 tests/vector_pop_front_only \
+				 tests/vector_remove_at_first \
+				 tests/vector_remove_at_middle \
+				 tests/vector_remove_at_last \
 				 tests/vector_clone_empty \
 				 tests/vector_clone_only \
 				 tests/vector_clone_full \
@@ -36,7 +39,7 @@ check_PROGRAMS = \
 				 tests/vector_destroy_normal \
 				 tests/vector_destroy_destructor
 
-tests_template_LDADD = $(check_LDADD)
+tests_vector_template_LDADD = $(check_LDADD)
 
 TESTS = $(check_PROGRAMS)
 
@@ -69,6 +72,11 @@ tests_vector_pop_front_only_LDADD = $(check_LDADD)
 tests_vector_clone_empty_LDADD = $(check_LDADD)
 tests_vector_clone_only_LDADD = $(check_LDADD)
 tests_vector_clone_full_LDADD = $(check_LDADD)
+
+# remove_at
+tests_vector_remove_at_first_LDADD = $(check_LDADD)
+tests_vector_remove_at_last_LDADD = $(check_LDADD)
+tests_vector_remove_at_middle_LDADD = $(check_LDADD)
 
 # destroy
 tests_vector_destroy_empty_LDADD = $(check_LDADD)

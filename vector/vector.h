@@ -22,6 +22,8 @@ bool vector_push_front(struct vector *vector, void *value);
 
 void *vector_pop_front(struct vector *vector);
 
+void *vector_remove_at(struct vector *vector, size_t i);
+
 struct vector *vector_clone(struct vector *vector);
 
 void vector_destroy(struct vector *vector, void (*destructor) (void*));

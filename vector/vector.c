@@ -121,6 +121,22 @@ void *vector_pop_front(struct vector *vector)
 }
 
 __attribute__((visibility("default")))
+void *vector_remove_at(struct vector *vector, size_t i)
+{
+    void *value;
+
+    if (i >= vector->size)
+        return NULL;
+
+    value = vector->data[i];
+
+    memmove(vector->data + i, vector->data + i + 1,
+            (--vector->size - i) * sizeof(void*));
+
+    return value;
+}
+
+__attribute__((visibility("default")))
 struct vector *vector_clone(struct vector *vector)
 {
     struct vector *clone;
